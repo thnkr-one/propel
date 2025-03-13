@@ -20,13 +20,16 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-# Ensure the output directory exists
+# Normalize the source directory by removing any trailing slash.
+src = options[:src].chomp('/')
+
+# Ensure the output directory exists.
 FileUtils.mkdir_p(options[:out])
 
-# Recursively find Ruby files in the source directory
-Dir.glob(File.join(options[:src], "**", "*.rb")).each do |ruby_file|
-  # Compute the file's relative path within the source directory
-  relative_path = ruby_file.sub(/^#{Regexp.escape(options[:src])}\/?/, '')
+# Recursively find Ruby files in the source directory.
+Dir.glob(File.join(src, "**", "*.rb")).each do |ruby_file|
+  # Compute the file's relative path within the source directory.
+  relative_path = ruby_file.sub(/^#{Regexp.escape(src)}\/?/, '')
 
   # Create the corresponding output file path with the .rbs extension.
   output_file = File.join(options[:out], relative_path.sub(/\.rb$/, '.rbs'))

@@ -1,9 +1,4 @@
 module Prpl
-  module Services
-    module Items
-    end
-  end
-
   module Config
     module Templates
       module Products
