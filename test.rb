@@ -51,7 +51,7 @@ class ProductQrLabelGenerator < Prpl::Pdf::Generators::Base
 
   def generate_pdf
     # Create the QR code
-    qr = RQRCode::QRCode.new(@url || "https://example.com")
+    qr = RQRCode::QRCode.new(@url || "https://rodaqr.fly.dev")
     qr_png = qr.as_png(size: 500, border_modules: 3)
     qr_data = qr_png.to_blob
 
