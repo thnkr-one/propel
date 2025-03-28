@@ -9,7 +9,7 @@ module Prpl
       module Products
         module Queries
           class GetAllProducts
-            GRAPHQL_QUERY = <<~GQL
+            GRAPHQL_QUERY = <<~GQL.freeze
               query GetAllProducts($cursor: String) {
                 products(first: 15, after: $cursor) {
                   edges {
@@ -87,25 +87,25 @@ module Prpl
 
               loop do
                 result = fetch_page(cursor: cursor)
-                products_data = result.dig("data", "products")
-                break unless products_data && products_data["edges"]
+                products_data = result.dig('data', 'products')
+                break unless products_data && products_data['edges']
 
                 # Transform each product to include the required fields
-                products = products_data["edges"].map do |edge|
-                  product = edge["node"]
+                products = products_data['edges'].map do |edge|
+                  product = edge['node']
 
                   # Set default values for required fields
-                  handle = product["id"].to_s.split('/').last
-                  vendor = "Shopify Store"
-                  category = "Default"
+                  handle = product['id'].to_s.split('/').last
+                  vendor = 'Shopify Store'
+                  category = 'Default'
 
                   # Get media URLs
                   media_urls = []
-                  if product["media"] && product["media"]["edges"]
-                    media_urls = product["media"]["edges"].map do |media_edge|
-                      media_node = media_edge["node"]
-                      if media_node["image"] && media_node["image"]["url"]
-                        media_node["image"]["url"]
+                  if product['media'] && product['media']['edges']
+                    media_urls = product['media']['edges'].map do |media_edge|
+                      media_node = media_edge['node']
+                      if media_node['image'] && media_node['image']['url']
+                        media_node['image']['url']
                       else
                         nil
                       end
@@ -114,57 +114,58 @@ module Prpl
 
                   # Extract variants
                   variants = []
-                  if product["variants"] && product["variants"]["edges"]
-                    variants = product["variants"]["edges"].map do |variant_edge|
-                      variant = variant_edge["node"]
+                  if product['variants'] && product['variants']['edges']
+                    variants = product['variants']['edges'].map do |variant_edge|
+                      variant = variant_edge['node']
 
                       # Extract selected options
                       selected_options = []
-                      if variant["selectedOptions"]
-                        selected_options = variant["selectedOptions"].map do |option|
+                      if variant['selectedOptions']
+                        selected_options = variant['selectedOptions'].map do |option|
                           {
-                            "name" => option["name"],
-                            "value" => option["value"]
+                            'name' => option['name'],
+                            'value' => option['value']
                           }
                         end
                       end
 
                       # Build variant hash
                       {
-                        "id" => variant["id"],
-                        "title" => variant["title"],
-                        "sku" => variant["sku"],
-                        "inventoryQuantity" => variant["inventoryQuantity"] || 0,
-                        "selectedOptions" => selected_options
+                        'id' => variant['id'],
+                        'title' => variant['title'],
+                        'sku' => variant['sku'],
+                        'inventoryQuantity' => variant['inventoryQuantity'] || 0,
+                        'selectedOptions' => selected_options
                       }
                     end
                   end
 
                   # Build final product hash
                   {
-                    "id" => product["id"],
-                    "shopify_item_id" => product["id"],
-                    "title" => product["title"],
-                    "descriptionHtml" => product["descriptionHtml"],
-                    "handle" => handle,
-                    "vendor" => vendor,
-                    "item_type" => "",
-                    "product_type" => "",
-                    "item_category" => category,
-                    "product_category" => category,
-                    "status" => "ACTIVE",
-                    "published" => true,
-                    "online_store_url" => nil,
-                    "online_store_preview_url" => nil,
-                    "tags" => [],
-                    "variants" => variants,
-                    "images" => media_urls
+                    'id' => product['id'],
+                    'shopify_item_id' => product['id'],
+                    'title' => product['title'],
+                    'descriptionHtml' => product['descriptionHtml'],
+                    'handle' => handle,
+                    'vendor' => vendor,
+                    'item_type' => '',
+                    'product_type' => '',
+                    'item_category' => category,
+                    'product_category' => category,
+                    'status' => 'ACTIVE',
+                    'published' => true,
+                    'online_store_url' => nil,
+                    'online_store_preview_url' => nil,
+                    'tags' => [],
+                    'variants' => variants,
+                    'images' => media_urls
                   }
                 end
 
                 all_products.concat(products)
-                break unless products_data["pageInfo"]["hasNextPage"]
-                cursor = products_data["pageInfo"]["endCursor"]
+                break unless products_data['pageInfo']['hasNextPage']
+
+                cursor = products_data['pageInfo']['endCursor']
               end
 
               all_products

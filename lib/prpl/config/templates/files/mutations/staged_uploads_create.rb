@@ -1,5 +1,5 @@
 session = ShopifyAPI::Auth::Session.new(
-  shop: "your-development-store.myshopify.com",
+  shop: 'your-development-store.myshopify.com',
   access_token: access_token
 )
 client = ShopifyAPI::Clients::Graphql::Admin.new(
@@ -22,7 +22,7 @@ query = <<~QUERY
 QUERY
 
 variables = {
-  "input": [{"filename"=>"image1.png", "mimeType"=>"image/png", "httpMethod"=>"POST", "resource"=>"IMAGE"}, {"filename"=>"video.mp4", "mimeType"=>"video/mp4", "fileSize"=>"1234", "resource"=>"VIDEO"}, {"filename"=>"3d_model.glb", "mimeType"=>"model/gltf-binary", "resource"=>"MODEL_3D", "fileSize"=>"456"}]
+  "input": [{ 'filename' => 'image1.png', 'mimeType' => 'image/png', 'httpMethod' => 'POST', 'resource' => 'IMAGE' }, { 'filename' => 'video.mp4', 'mimeType' => 'video/mp4', 'fileSize' => '1234', 'resource' => 'VIDEO' }, { 'filename' => '3d_model.glb', 'mimeType' => 'model/gltf-binary', 'resource' => 'MODEL_3D', 'fileSize' => '456' }]
 }
 
 response = client.query(query: query, variables: variables)

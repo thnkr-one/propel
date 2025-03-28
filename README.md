@@ -1,4 +1,4 @@
-# Prpl Gem
+# Propel Gem
 
 ![Prpl Gem](https://img.shields.io/gem/v/prpl.svg)
 ![License](https://img.shields.io/github/license/yourusername/prpl.svg)

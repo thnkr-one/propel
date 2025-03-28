@@ -10,7 +10,7 @@ module Prpl
         module Queries
           class GetProductByHandle
             # GraphQL query for fetching product by handle with variables
-            PRODUCT_QUERY = <<~GQL
+            PRODUCT_QUERY = <<~GQL.freeze
               query GetProductByHandle($handle: String!) {
                 productByHandle(handle: $handle) {
                   id
@@ -34,7 +34,7 @@ module Prpl
             # @return [Hash] The parsed JSON response from the GraphQL API.
             def fetch_product(handle)
               variables = {
-                "handle" => handle
+                'handle' => handle
               }
               response = client.query(query: PRODUCT_QUERY, variables: variables)
               response.body

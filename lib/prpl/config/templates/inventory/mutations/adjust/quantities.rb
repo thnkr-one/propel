@@ -46,8 +46,8 @@ module Prpl
               # @return [Hash] the response from the GraphQL API.
               def adjust_quantity(inventory_item_id:, location_id:, delta:, reference_document_uri:)
                 input = {
-                  reason: "correction",
-                  name: "available",
+                  reason: 'correction',
+                  name: 'available',
                   referenceDocumentUri: reference_document_uri,
                   changes: [
                     {
